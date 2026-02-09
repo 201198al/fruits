@@ -43,6 +43,9 @@ const display = (fruitsArray) => {
     // и добавляем в конец списка fruitsList при помощи document.appendChild
     const fruit = fruitsArray[i];
     
+    // СОЗДАЕМ ЭЛЕМЕНТ li
+    const li = document.createElement('li');
+    
     // определяем класс для цвета
     let colorClass = 'fruit_violet';
     if (fruit.color === 'зеленый') colorClass = 'fruit_green';
