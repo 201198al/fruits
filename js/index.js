@@ -33,16 +33,15 @@ let filteredFruits = [...fruits];
 /*** ОТОБРАЖЕНИЕ ***/
 
 // отрисовка карточек
-const display = () => {
+const display = (fruitsArray) => {
   // TODO: очищаем fruitsList от вложенных элементов,
   // чтобы заполнить актуальными данными из fruits
   fruitsList.innerHTML = '';
 
-  for (let i = 0; i < filteredFruits.length; i++) {
+  for (let i = 0; i < fruitsArray.length; i++) {
     // TODO: формируем новый элемент <li> при помощи document.createElement,
     // и добавляем в конец списка fruitsList при помощи document.appendChild
-    const fruit = filteredFruits[i];
-    const li = document.createElement('li');
+    const fruit = fruitsArray[i];
     
     // определяем класс для цвета
     let colorClass = 'fruit_violet';
@@ -69,7 +68,7 @@ const display = () => {
 };
 
 // первая отрисовка карточек
-display();
+display(filteredFruits);
 
 /*** ПЕРЕМЕШИВАНИЕ ***/
 
@@ -114,7 +113,7 @@ const shuffleFruits = () => {
 
 shuffleButton.addEventListener('click', () => {
   shuffleFruits();
-  display();
+  display(filteredFruits);
 });
 
 /*** ФИЛЬТРАЦИЯ ***/
@@ -140,7 +139,7 @@ const filterFruits = () => {
 
 filterButton.addEventListener('click', () => {
   filterFruits();
-  display();
+  display(filteredFruits);
 });
 
 /*** СОРТИРОВКА ***/
@@ -246,7 +245,7 @@ sortActionButton.addEventListener('click', () => {
   
   const sort = sortAPI[sortKind];
   filteredFruits = sortAPI.startSort(sort, filteredFruits, comparationColor);
-  display();
+  display(filteredFruits);
   
   // TODO: вывести в sortTimeLabel значение sortTime
   sortTimeLabel.textContent = sortTime;
@@ -280,5 +279,5 @@ addActionButton.addEventListener('click', () => {
   colorInput.value = '';
   weightInput.value = '';
   
-  display();
+  display(filteredFruits);
 });
