@@ -1,4 +1,4 @@
-// ====== DOM элементы ======
+// ===== DOM =====
 const fruitsList = document.querySelector('.fruits__list');
 const shuffleButton = document.querySelector('.shuffle__btn');
 const filterButton = document.querySelector('.filter__btn');
@@ -6,14 +6,15 @@ const sortKindLabel = document.querySelector('.sort__kind');
 const sortTimeLabel = document.querySelector('.sort__time');
 const sortChangeButton = document.querySelector('.sort__change__btn');
 const sortActionButton = document.querySelector('.sort__action__btn');
+
 const kindInput = document.querySelector('.kind__input');
 const colorInput = document.querySelector('.color__input');
 const weightInput = document.querySelector('.weight__input');
-const addActionButton = document.querySelector('.add__action__btn');
 const minWeightInput = document.querySelector('.minweight__input');
 const maxWeightInput = document.querySelector('.maxweight__input');
+const addActionButton = document.querySelector('.add__action__btn');
 
-// ====== Данные ======
+// ===== DATA =====
 let fruits = [
   { kind: 'Мангустин', color: 'фиолетовый', weight: 13 },
   { kind: 'Дуриан', color: 'зеленый', weight: 35 },
@@ -22,7 +23,7 @@ let fruits = [
   { kind: 'Тамаринд', color: 'светло-коричневый', weight: 22 },
 ];
 
-// ====== Отрисовка ======
+// ===== RENDER =====
 const display = () => {
   fruitsList.innerHTML = '';
 
@@ -49,21 +50,18 @@ const display = () => {
   });
 };
 
-// первая отрисовка
 display();
 
-// ====== Перемешивание ======
+// ===== SHUFFLE =====
 const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
 const shuffleFruits = () => {
   const result = [];
-
   while (fruits.length > 0) {
-    const index = getRandomInt(0, fruits.length - 1);
-    result.push(fruits.splice(index, 1)[0]);
+    const i = getRandomInt(0, fruits.length - 1);
+    result.push(fruits.splice(i, 1)[0]);
   }
-
   fruits = result;
 };
 
@@ -72,7 +70,7 @@ shuffleButton.addEventListener('click', () => {
   display();
 });
 
-// ====== Фильтрация ======
+// ===== FILTER =====
 const filterFruits = () => {
   const min = Number(minWeightInput.value);
   const max = Number(maxWeightInput.value);
@@ -87,7 +85,7 @@ filterButton.addEventListener('click', () => {
   display();
 });
 
-// ====== Сортировка ======
+// ===== SORT =====
 let sortKind = 'bubbleSort';
 let sortTime = '-';
 
@@ -112,28 +110,25 @@ const sortAPI = {
   },
 
   quickSort(arr, compare) {
-  if (arr.length <= 1) return arr;
+    if (arr.length <= 1) return arr;
 
-  const pivot = arr[0];
-  const left = [];
-  const right = [];
+    const pivot = arr[0];
+    const left = [];
+    const right = [];
 
-  for (let i = 1; i < arr.length; i++) {
-    if (compare(arr[i], pivot) < 0) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
+    for (let i = 1; i < arr.length; i++) {
+      if (compare(arr[i], pivot) < 0) left.push(arr[i]);
+      else right.push(arr[i]);
     }
-  }
 
-  const sorted = [
-    ...this.quickSort(left, compare),
-    pivot,
-    ...this.quickSort(right, compare),
-  ];
+    const sorted = [
+      ...this.quickSort(left, compare),
+      pivot,
+      ...this.quickSort(right, compare),
+    ];
 
-  arr.splice(0, arr.length, ...sorted);
-},пш
+    arr.splice(0, arr.length, ...sorted);
+  },
 
   startSort(sort, arr, compare) {
     const start = Date.now();
@@ -154,12 +149,64 @@ sortActionButton.addEventListener('click', () => {
   display();
 });
 
-// ====== Добавление ======
+// ===== ADD FRUIT =====
+addActionButton.addEventListener('click', () => {
+  if (!kindInput.value || !colorInput.value || !weightInput.value) return;
+
+  fruits.push({
+    kind: kindInput.value,
+    color: colorInput.value,
+    weight: Number(weightInput.value),
+  });
+
+  kindInput.value = '';
+  colorInput.value = '';
+  weightInput.value = '';
+
+  display();
+});
+const fruitsList = document.querySelector('.fruits__list');
+const addActionButton = document.querySelector('.add__action__btn');
+const kindInput = document.querySelector('.kind__input');
+const colorInput = document.querySelector('.color__input');
+const weightInput = document.querySelector('.weight__input');
+
+let fruits = [
+  { kind: 'Мангустин', color: 'фиолетовый', weight: 13 },
+  { kind: 'Дуриан', color: 'зеленый', weight: 35 },
+];
+
+const display = () => {
+  fruitsList.innerHTML = '';
+
+  fruits.forEach((fruit, index) => {
+    const li = document.createElement('li');
+    li.classList.add('fruit__item');
+    li.innerHTML = `
+      <div class="fruit__info">
+        <div>index: ${index}</div>
+        <div>kind: ${fruit.kind}</div>
+        <div>color: ${fruit.color}</div>
+        <div>weight: ${fruit.weight}</div>
+      </div>
+    `;
+    fruitsList.appendChild(li);
+  });
+};
+
+display();
+
 addActionButton.addEventListener('click', () => {
   fruits.push({
     kind: kindInput.value,
     color: colorInput.value,
     weight: Number(weightInput.value),
   });
+
+  kindInput.value = '';
+  colorInput.value = '';
+  weightInput.value = '';
+
   display();
 });
+
