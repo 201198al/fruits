@@ -85,7 +85,6 @@ const shuffleFruits = () => {
   let result = [];
   let originalOrder = [...filteredFruits]; // сохраняем исходный порядок для проверки
 
-  // ATTENTION: сейчас при клике вы запустите бесконечный цикл и браузер зависнет
   while (filteredFruits.length > 0) {
     // TODO: допишите функцию перемешивания массива
     //
